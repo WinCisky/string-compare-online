@@ -31,7 +31,10 @@
 		if (originalModel && modifiedModel) {
 			const originalValue = originalModel.getValue();
 			const modifiedValue = modifiedModel.getValue();
-			isTextIdentical = originalValue === modifiedValue;
+
+			// Rimuovi spazi e tabulazioni prima del confronto
+			const normalize = (str: string) => str.replace(/[ \t]/g, '');
+			isTextIdentical = normalize(originalValue) === normalize(modifiedValue);
 
 			if (isTextIdentical) {
 				borderColorClass = 'border-green-200'; // Texts are identical
