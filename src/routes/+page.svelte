@@ -142,9 +142,7 @@
 		</DropdownMenu.Root>
 	</div>
 	<div
-		class="mb-0 flex h-[calc(100svh-80px)] w-full flex-col rounded border-2 shadow-lg md:m-[20px] md:mt-0 md:mb-0 md:h-[calc(100svh-100px)] md:w-[calc(100%-40px)] {isTextIdentical
-			? 'border-green-200 dark:border-green-700'
-			: 'border-red-200 dark:border-red-800'}"
+		class="border shadow-xs p-4 mb-0 flex h-[calc(100svh-80px)] w-full flex-col rounded md:m-[20px] md:mt-0 md:mb-0 md:h-[calc(100svh-100px)] md:w-[calc(100%-40px)]"
 	>
 		<div class="flex-grow" bind:this={editorElement}></div>
 	</div>
@@ -165,11 +163,11 @@
 				{/if}
 			</Badge>
 		{/if}
-		<Button onclick={swapText}>
+		<Button variant="secondary" onclick={swapText}>
 			<ArrowRightLeft />
 			Swap
 		</Button>
-		<Button onclick={clearText}>
+		<Button variant="secondary" onclick={clearText}>
 			<BrushCleaning />
 			Clear
 		</Button>
