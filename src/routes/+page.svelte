@@ -117,59 +117,41 @@
 </script>
 
 <div
-	class="bg-base-100 dark:bg-base-900 flex h-screen w-full flex-col items-center justify-between"
+	class="flex h-screen w-full flex-col items-center justify-between"
 >
-	<div class="flex h-[80px] w-full items-center justify-around text-lg font-semibold">
-		<div>
-			<GitCompareArrows class="inline-block h-6 w-6 mr-2" />
-			Text Comparison Tool
-		</div>
-		<DropdownMenu.Root>
-			<DropdownMenu.Trigger class={buttonVariants({ variant: 'outline', size: 'icon' })}>
-				<SunIcon
-					class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"
-				/>
-				<MoonIcon
-					class="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
-				/>
-				<span class="sr-only">Toggle theme</span>
-			</DropdownMenu.Trigger>
-			<DropdownMenu.Content align="end">
-				<DropdownMenu.Item onclick={() => changeTheme('light')}>Light</DropdownMenu.Item>
-				<DropdownMenu.Item onclick={() => changeTheme('dark')}>Dark</DropdownMenu.Item>
-				<DropdownMenu.Item onclick={() => changeTheme('system')}>System</DropdownMenu.Item>
-			</DropdownMenu.Content>
-		</DropdownMenu.Root>
-	</div>
 	<div
-		class="border shadow-xs p-4 mb-0 flex h-[calc(100svh-80px)] w-full flex-col rounded md:m-[20px] md:mt-0 md:mb-0 md:h-[calc(100svh-100px)] md:w-[calc(100%-40px)]"
+		class="flex h-screen w-full"
 	>
-		<div class="flex-grow" bind:this={editorElement}></div>
+		<div class="grow" bind:this={editorElement}></div>
 	</div>
-	<div class="flex h-[80px] w-full items-center justify-center gap-2">
-		{#if statusLabelText}
-			<Badge
-				variant="secondary"
-				class="text-white {isTextIdentical
-					? 'bg-green-500 dark:bg-green-600'
-					: 'bg-red-400 dark:bg-red-500'}"
-			>
-				{#if isTextIdentical}
-					<BadgeCheckIcon />
-					Identical
-				{:else}
-					<BadgeAlert />
-					Different
-				{/if}
-			</Badge>
-		{/if}
-		<Button variant="secondary" onclick={swapText}>
-			<ArrowRightLeft />
-			Swap
-		</Button>
-		<Button variant="secondary" onclick={clearText}>
-			<BrushCleaning />
-			Clear
-		</Button>
+	<div class="absolute bottom-0 flex mb-4 w-full items-center justify-center gap-2">
+		<div class="relative w-fit p-2 border-2 rounded-md bg-white dark:bg-gray-800 {isTextIdentical
+						? 'border-green-300 dark:border-green-600'
+						: 'border-red-400 dark:border-red-600'}">
+			<Button variant="outline" onclick={swapText}>
+				<ArrowRightLeft />
+				Swap
+			</Button>
+			<Button variant="outline" onclick={clearText}>
+				<BrushCleaning />
+				Clear
+			</Button>
+			<DropdownMenu.Root>
+				<DropdownMenu.Trigger class={buttonVariants({ variant: 'outline', size: 'icon' })}>
+					<SunIcon
+						class="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"
+					/>
+					<MoonIcon
+						class="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
+					/>
+					<span class="sr-only">Toggle theme</span>
+				</DropdownMenu.Trigger>
+				<DropdownMenu.Content align="end">
+					<DropdownMenu.Item onclick={() => changeTheme('light')}>Light</DropdownMenu.Item>
+					<DropdownMenu.Item onclick={() => changeTheme('dark')}>Dark</DropdownMenu.Item>
+					<DropdownMenu.Item onclick={() => changeTheme('system')}>System</DropdownMenu.Item>
+				</DropdownMenu.Content>
+		</DropdownMenu.Root>
+		</div>
 	</div>
 </div>
