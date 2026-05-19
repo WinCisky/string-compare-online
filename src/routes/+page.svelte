@@ -2,25 +2,13 @@
 	import { onDestroy, onMount } from 'svelte';
 	import * as monaco from 'monaco-editor';
 	import { Button } from '$lib/components/ui/button/index.js';
-	import {
-		ArrowRightLeft,
-		BrushCleaning,
-		SunIcon,
-		MoonIcon,
-		BadgeCheckIcon,
-		BadgeAlert,
-		GitCompareArrows
-	} from '@lucide/svelte';
+	import { ArrowRightLeft, BrushCleaning, SunIcon, MoonIcon } from '@lucide/svelte';
 	import { resetMode, setMode, mode } from 'mode-watcher';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
 	import { buttonVariants } from '$lib/components/ui/button/index.js';
-	import { Badge } from '$lib/components/ui/badge/index.js';
 
 	let editorElement: HTMLDivElement;
 	let editor: monaco.editor.IStandaloneDiffEditor;
-	let borderColorClass = 'border-accent'; // Initial border color class
-	let statusLabelText = '';
-	let statusLabelColorClass = '';
 	let isTextIdentical = false;
 
 	// Function to update border color and status label based on text comparison
@@ -35,27 +23,15 @@
 			// Rimuovi spazi e tabulazioni prima del confronto
 			const normalize = (str: string) => str.replace(/[ \t]/g, '');
 			isTextIdentical = normalize(originalValue) === normalize(modifiedValue);
-
-			if (isTextIdentical) {
-				borderColorClass = 'border-green-200'; // Texts are identical
-				statusLabelText = 'Identical';
-				statusLabelColorClass = 'text-green-500';
-			} else {
-				borderColorClass = 'border-red-200'; // Texts are different
-				statusLabelText = 'Different';
-				statusLabelColorClass = 'text-red-500';
-			}
 		} else {
-			borderColorClass = 'border-accent'; // Fallback if models are not ready
-			statusLabelText = '';
-			statusLabelColorClass = '';
+			isTextIdentical = false;
 		}
 	}
 
 	onMount(async () => {
 		editor = monaco.editor.createDiffEditor(editorElement, {
 			automaticLayout: true,
-			theme: $mode === 'dark' ? 'vs-dark' : 'vs-light',
+			theme: mode.current === 'dark' ? 'vs-dark' : 'vs-light',
 			originalEditable: true,
 			renderSideBySide: true,
 			renderSideBySideInlineBreakpoint: 10,
@@ -87,7 +63,7 @@
 			// 'system' mode
 			resetMode();
 		}
-		monaco.editor.setTheme($mode === 'dark' ? 'vs-dark' : 'vs-light');
+		monaco.editor.setTheme(mode.current === 'dark' ? 'vs-dark' : 'vs-light');
 	}
 
 	function swapText() {
@@ -116,18 +92,16 @@
 	}
 </script>
 
-<div
-	class="flex h-screen w-full flex-col items-center justify-between"
->
-	<div
-		class="flex h-screen w-full"
-	>
+<div class="flex h-screen w-full flex-col items-center justify-between">
+	<div class="flex h-screen w-full">
 		<div class="grow" bind:this={editorElement}></div>
 	</div>
-	<div class="absolute bottom-0 flex mb-4 w-full items-center justify-center gap-2">
-		<div class="relative w-fit p-2 border-2 rounded-md bg-white dark:bg-gray-800 {isTextIdentical
-						? 'border-green-300 dark:border-green-600'
-						: 'border-red-400 dark:border-red-600'}">
+	<div class="absolute bottom-0 mb-4 flex w-full items-center justify-center gap-2">
+		<div
+			class="relative w-fit rounded-md border-2 bg-white p-2 dark:bg-gray-800 {isTextIdentical
+				? 'border-green-300 dark:border-green-600'
+				: 'border-red-400 dark:border-red-600'}"
+		>
 			<Button variant="outline" onclick={swapText}>
 				<ArrowRightLeft />
 				Swap
@@ -151,7 +125,7 @@
 					<DropdownMenu.Item onclick={() => changeTheme('dark')}>Dark</DropdownMenu.Item>
 					<DropdownMenu.Item onclick={() => changeTheme('system')}>System</DropdownMenu.Item>
 				</DropdownMenu.Content>
-		</DropdownMenu.Root>
+			</DropdownMenu.Root>
 		</div>
 	</div>
 </div>

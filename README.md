@@ -7,7 +7,6 @@
     <a href="https://github.com/WinCisky/stg-email/blob/main/LICENSE"><img src="https://img.shields.io/github/license/WinCisky/string-compare-online" alt="License"></a>
 </p>
 
-
 ## About string-compare-online
 
 A tool for comparing two strings or texts, highlighting the differences between them. It is useful for developers, writers, and anyone who needs to compare text content.
